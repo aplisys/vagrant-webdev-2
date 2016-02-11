@@ -3,10 +3,10 @@
 ## LAMP Stack
 
 Stack contains:
-- Linux Debian 8 Jessie
+- Linux Debian 8.x Jessie
 - Apache 2.4
 - PHP 5.6
-- MariaDB 10
+- MariaDB 10.x
 
 ## Author:
 

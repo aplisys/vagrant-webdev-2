@@ -11,16 +11,16 @@ cd "$PROJECT_DIR"
 
 echo "==== Initializing project..."
 
-echo "Setup Apache virtual hosts"
+echo "Setup Nginx virtual hosts"
 if [ -f ./provision/config/000-default.conf ]; then
-    rm -f /etc/apache2/sites-enabled/*
+    rm -f /etc/nginx/sites-enabled/*
     rm -rf ./html
-    cp -f ./provision/config/000-default.conf /etc/apache2/sites-available/
-    ln -s /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+    cp -f ./provision/config/000-default.conf /etc/nginx/sites-available/
+    ln -s /etc/nginx/sites-available/000-default.conf /etc/nginx/sites-enabled/000-default.conf
 fi
 
-echo "Reload Apache service"
-systemctl restart apache2
+echo "Reload Nginx service"
+systemctl restart nginx
 
 echo "Setup MySQL databases"
 mysql -u root -pvagrant -e "DROP USER '$PROJECT_NAME'@'%';"

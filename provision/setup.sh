@@ -14,14 +14,14 @@ apt-get -y dist-upgrade
 echo "== Installing some tools"
 apt-get -y install debconf-utils tmux vim git
 
-echo "== Installing Apache 2.4"
-apt-get -y install apache2 apache2-mpm-prefork
+echo "== Installing Nginx"
+apt-get -y install nginx
 
 echo "== Instaling PHP"
-apt-get -y install php5 php5-common php5-cli libapache2-mod-php5
+apt-get -y install php7.0 php7.0-fpm php7.0-common php7.0-cli
 
 echo "== Installing PHP extensions"
-apt-get -y install php-pear php5-curl php5-gd php5-intl php5-json php5-mcrypt php5-mysql php5-sqlite php5-xdebug php5-xmlrpc php5-xsl
+apt-get -y install php7.0-curl php7.0-gd php7.0-intl php7.0-json php7.0-mcrypt php7.0-mysql php7.0-sqlite3 php7.0-xmlrpc
 
 echo "== Installing MariaDB"
 
@@ -32,35 +32,22 @@ apt-get -y install mariadb-server
 
 echo "== Setup configuration files"
 
-if [ -f /var/www/provision/config/php-apache2.ini ]
+if [ -f /var/www/provision/config/php-fpm.ini ]
 then
-    echo "Write PHP for Apache configuration..."
-    cp -f /var/www/provision/config/php-apache2.ini /etc/php5/apache2/php.ini
+    echo "Write PHP-FPM configuration INI file..."
+    cp -f /var/www/provision/config/php-fpm.ini /etc/php/7.0/fpm/php.ini
+fi
+
+if [ -f /var/www/provision/config/php-fpm.conf ]
+then
+    echo "Write PHP-FPM configuration CONF file..."
+    cp -f /var/www/provision/config/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
 fi
 
 if [ -f /var/www/provision/config/php-cli.ini ]
 then
     echo "Write PHP-CLI configuration..."
-    cp -f /var/www/provision/config/php-cli.ini /etc/php5/cli/php.ini
-fi
-
-echo "Enable apache php module..."
-if [ ! -f /etc/apache2/mods-enabled/php5.load ]
-then
-    ln -s /etc/apache2/mods-available/php5.load /etc/apache2/mods-enabled/php5.load
-fi
-if [ ! -f /etc/apache2/mods-enabled/php5.conf ] && [ -f /etc/apache2/mods-available/php5.conf ]
-then
-    ln -s /etc/apache2/mods-available/php5.conf /etc/apache2/mods-enabled/php5.conf
-fi
-echo "Enable apache rewrite module..."
-if [ ! -f /etc/apache2/mods-enabled/rewrite.load ]
-then
-    ln -s /etc/apache2/mods-available/rewrite.load /etc/apache2/mods-enabled/rewrite.load
-fi
-if [ ! -f /etc/apache2/mods-enabled/rewrite.conf ] && [ -f /etc/apache2/mods-available/rewrite.conf ]
-then
-    ln -s /etc/apache2/mods-available/rewrite.conf /etc/apache2/mods-enabled/rewrite.conf
+    cp -f /var/www/provision/config/php-cli.ini /etc/php/7.0/cli/php.ini
 fi
 
 if [ -f /var/www/provision/config/my.cnf ]
@@ -69,7 +56,7 @@ then
     cp -f /var/www/provision/config/my.cnf /etc/mysql/my.cnf
 fi
 
-systemctl restart mysql apache2
+systemctl restart mysql php7.0-fpm nginx
 
 echo "== Configure MariaDB root user"
 mysql -u root -pvagrant -e "CREATE USER 'root'@'%' IDENTIFIED BY 'vagrant'; GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"

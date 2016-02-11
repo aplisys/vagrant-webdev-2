@@ -1,0 +1,9 @@
+/build/
+/vendor/
+/bin/
+/.vagrant
+tags
+*.tags
+/.vim*
+/gvim*
+/vim*

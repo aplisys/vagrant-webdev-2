@@ -22,9 +22,9 @@ fi
 echo "Reload Apache service"
 systemctl restart apache2
 
-echo "Setup MySQL databases"
-mysql -u root -pvagrant -e "DROP USER '$PROJECT_NAME'@'%';"
-mysql -u root -pvagrant -e "CREATE USER '$PROJECT_NAME'@'%' IDENTIFIED BY '$PROJECT_NAME'; GRANT ALL ON \`$PROJECT_NAME%\`.* TO '$PROJECT_NAME'@'%'; FLUSH PRIVILEGES;"
-mysql -u root -pvagrant -e "DROP DATABASE IF EXISTS $PROJECT_NAME; CREATE DATABASE $PROJECT_NAME CHARACTER SET 'utf8mb4' COLLATE 'utf8mb4_unicode_ci';"
+echo "Setup PostgreSQL databases"
+sudo -u postgres psql -c "DROP USER vagrant;"
+sudo -u postgres psql -c "CREATE USER vagrant WITH PASSWORD 'vagrant';"
+sudo -u postgres psql -c "CREATE DATABASE vagrant OWNER vagrant;"
 
 echo "==== Initializing finished"

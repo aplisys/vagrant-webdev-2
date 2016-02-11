@@ -21,14 +21,11 @@ echo "== Instaling PHP"
 apt-get -y install php5 php5-common php5-cli libapache2-mod-php5
 
 echo "== Installing PHP extensions"
-apt-get -y install php-pear php5-curl php5-gd php5-intl php5-json php5-mcrypt php5-mysql php5-sqlite php5-xdebug php5-xmlrpc php5-xsl
+apt-get -y install php-pear php5-curl php5-gd php5-intl php5-json php5-mcrypt php5-mysql php5-pgsql php5-sqlite php5-xdebug php5-xmlrpc php5-xsl
 
-echo "== Installing MariaDB"
+echo "== Installing PostgreSQL"
 
-echo "mariadb-server mysql-server/root_password password vagrant" | debconf-set-selections
-echo "mariadb-server mysql-server/root_password_again password vagrant" | debconf-set-selections
-
-apt-get -y install mariadb-server
+apt-get -y install postgresql
 
 echo "== Setup configuration files"
 
@@ -63,16 +60,16 @@ then
     ln -s /etc/apache2/mods-available/rewrite.conf /etc/apache2/mods-enabled/rewrite.conf
 fi
 
-if [ -f /var/www/provision/config/my.cnf ]
-then
-    echo "Write MariaDB configuration..."
-    cp -f /var/www/provision/config/my.cnf /etc/mysql/my.cnf
-fi
+# if [ -f /var/www/provision/config/my.cnf ]
+# then
+#     echo "Write MariaDB configuration..."
+#     cp -f /var/www/provision/config/my.cnf /etc/mysql/my.cnf
+# fi
 
-systemctl restart mysql apache2
+systemctl restart apache2 postgresql
 
-echo "== Configure MariaDB root user"
-mysql -u root -pvagrant -e "CREATE USER 'root'@'%' IDENTIFIED BY 'vagrant'; GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+# echo "== Configure MariaDB root user"
+# mysql -u root -pvagrant -e "CREATE USER 'root'@'%' IDENTIFIED BY 'vagrant'; GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
 
 echo "== Configure profile"
 cp -f /var/www/provision/config/vagrant.sh /etc/profile.d/vagrant.sh

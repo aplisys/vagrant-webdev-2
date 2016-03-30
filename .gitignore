@@ -1,5 +1,6 @@
 /web/bundles/
 /app/bootstrap.php.cache
+/app/build/*
 /app/cache/*
 /app/config/parameters.yml
 /app/logs/*
@@ -15,4 +16,4 @@ tags
 /.vim*
 /gvim*
 /vim*
-/app/build/
+/composer.phar

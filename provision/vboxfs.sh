@@ -20,6 +20,6 @@ apt-get -y dist-upgrade
 
 apt-get -y install virtualbox-guest-dkms
 
-echo "==== Installation finished"
-echo ">>>> Please. Reboot VM with provisioning enabled. <<<<"
+modprobe -a vboxguest vboxsf vboxvideo
 
+echo "==== Installation finished"

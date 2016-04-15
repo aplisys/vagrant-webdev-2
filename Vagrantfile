@@ -45,7 +45,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder "./", "/var/www", create: true, group: "vagrant", owner: "vagrant"
+  # config.vm.synced_folder "./", "/var/www", create: true, group: "vagrant", owner: "vagrant"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -57,21 +57,35 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   #   # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "1024"]
+    vb.customize ["sharedfolder", "add", :id, "--name", "varwww", "--hostpath", Dir.pwd]
   end
   #
   # View the documentation for the provider you're using for more
   # information on available options.
 
+  # provision vbox guest additions
+  config.vm.provision "shell" do |s|
+    s.path = "provision/vboxfs.sh"
+  end
+
+  # mount shared folders
+  config.vm.provision "shell", run: "always" do |s|
+    s.path = "provision/mount.sh"
+  end
+
+  # install packages
   config.vm.provision "shell" do |s|
     s.path = "provision/setup.sh"
   end
 
+  # setup environment
   config.vm.provision "shell" do |s|
     s.path = "provision/init.sh"
     # first argument is required and is project_name
     s.args = [config.vm.hostname]
   end
 
+  # additional provisioning on every reboot
   config.vm.provision "shell", run: "always" do |s|
     s.path = "provision/reboot.sh"
   end

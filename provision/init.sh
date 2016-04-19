@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$#" -ne 1 ]; then
-  echo "Usage: $0 PROJECT_NAME" >&2
+  echo "Usage: \"$0\" project name >&2
   exit 1
 fi
 export PROJECT_DIR=/var/www
@@ -23,7 +23,6 @@ echo "Reload Apache service"
 systemctl restart apache2
 
 echo "Setup PostgreSQL databases"
-sudo -u postgres psql -c "DROP USER vagrant;"
 sudo -u postgres psql -c "CREATE USER vagrant WITH PASSWORD 'vagrant';"
 sudo -u postgres psql -c "CREATE DATABASE vagrant OWNER vagrant;"
 

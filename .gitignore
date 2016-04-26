@@ -10,6 +10,9 @@
 /build/
 /vendor/
 /bin/
+/app/uploads/*
+!app/uploads/.gitkeep
+
 /.vagrant
 tags
 *.tags

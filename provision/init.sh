@@ -19,6 +19,11 @@ if [ -f ./provision/config/000-default.conf ]; then
     ln -s /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
 fi
 
+echo "Disable PHP XDebug module fo CLI"
+if [ -f /etc/php5/cli/conf.d/*-xdebug.ini ]; then
+    rm -f /etc/php5/cli/conf.d/*-xdebug.ini
+fi
+
 echo "Reload Apache service"
 systemctl restart apache2
 

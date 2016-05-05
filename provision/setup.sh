@@ -44,6 +44,9 @@ then
     cp -f /var/www/provision/config/php-cli.ini /etc/php5/cli/php.ini
 fi
 
+echo "Install php composer..."
+php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/bin --filename=composer
+
 echo "Enable apache php module..."
 if [ ! -f /etc/apache2/mods-enabled/php5.load ]
 then

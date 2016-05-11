@@ -1,1 +1,2 @@
-export VAGRANT=1
+VAGRANT=1
+export VAGRANT

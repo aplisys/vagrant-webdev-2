@@ -21,7 +21,7 @@ echo "== Instaling PHP"
 apt-get -y install php5 php5-common php5-cli libapache2-mod-php5
 
 echo "== Installing PHP extensions"
-apt-get -y install php-pear php5-curl php5-gd php5-intl php5-json php5-mcrypt php5-mysql php5-sqlite php5-xdebug php5-xmlrpc php5-xsl
+apt-get -y install php-pear php5-curl php5-gd php5-intl php5-json php5-mcrypt php5-mysql php5-sqlite php5-xdebug php5-xmlrpc php5-xsl php5-ldap
 
 echo "== Installing MariaDB"
 
@@ -31,6 +31,12 @@ echo "mariadb-server mysql-server/root_password_again password vagrant" | debcon
 apt-get -y install mariadb-server
 
 echo "== Setup configuration files"
+
+if [ -f /var/www/provision/config/tmux.conf ]
+then
+    echo "Write TMUX configuration..."
+    cp -f /var/www/provision/config/tmux.conf /etc/tmux.conf
+fi
 
 if [ -f /var/www/provision/config/php-apache2.ini ]
 then

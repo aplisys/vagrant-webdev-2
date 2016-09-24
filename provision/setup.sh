@@ -16,7 +16,9 @@ apt-get -y install debconf-utils tmux vim git
 
 echo "== Add dotdeb sources"
 cp -f /etc/apt/sources.list ~/sources.list
-echo -e "\n\ndeb http://packages.dotdeb.org jessie all\ndeb-src http://packages.dotdeb.org jessie all" >> ~/sources.list
+echo "" >> ~/sources.list
+echo "deb http://packages.dotdeb.org jessie all" >> ~/sources.list
+echo "deb-src http://packages.dotdeb.org jessie all" >> ~/sources.list
 cp -f ~/sources.list /etc/apt/sources.list
 
 wget https://www.dotdeb.org/dotdeb.gpg

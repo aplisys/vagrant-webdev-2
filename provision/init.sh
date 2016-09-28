@@ -1,7 +1,7 @@
 #!/bin/sh
 
 if [ "$#" -ne 1 ]; then
-  echo "Usage: \"$0\" project name >&2
+  echo "Usage: \"$0\" project name" >&2
   exit 1
 fi
 export PROJECT_DIR=/var/www

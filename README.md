@@ -7,6 +7,7 @@ Stack contains:
 - Nginx 1.x
 - PHP 7.0 FPM
 - MariaDB 10.x
+- Symfony 2.8
 
 ## Author:
 

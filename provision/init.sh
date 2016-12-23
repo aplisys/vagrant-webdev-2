@@ -16,7 +16,9 @@ if [ -f ./provision/config/000-default.conf ]; then
     rm -f /etc/nginx/sites-enabled/*
     rm -rf ./html
     cp -f ./provision/config/000-default.conf /etc/nginx/sites-available/
+    sed -i -e "s/{{ PROJECT_NAME }}/$PROJECT_NAME/g" /etc/nginx/sites-available/000-default.conf
     ln -s /etc/nginx/sites-available/000-default.conf /etc/nginx/sites-enabled/000-default.conf
+    sed -i -e "s/$PROJECT_NAME/\\0\t\\0.dev\tvagrant\tvagrant.dev/" /etc/hosts
 fi
 
 echo "Reload Nginx service"

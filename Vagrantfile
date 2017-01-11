@@ -11,7 +11,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   # config.vm.box = "debian/jessie64" - base box but haven't vbox addons
-  # config.vm.box = "eider/jessie64-vbox" # same but with vbox addons
   config.vm.box = "debian/contrib-jessie64"
 
   # Disable automatic box update checking. If you disable this, then

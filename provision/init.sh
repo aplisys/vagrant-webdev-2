@@ -16,7 +16,9 @@ if [ -f ./provision/config/000-default.conf ]; then
     rm -f /etc/apache2/sites-enabled/*
     rm -rf ./html
     cp -f ./provision/config/000-default.conf /etc/apache2/sites-available/
+    sed -i -e "s/{{ PROJECT_NAME }}/$PROJECT_NAME/g" /etc/apache2/sites-available/000-default.conf
     ln -s /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-enabled/000-default.conf
+    sed -i -e "s/$PROJECT_NAME/\\0\t\\0.dev\tvagrant\tvagrant.dev/" /etc/hosts
 fi
 
 # if [ -f /etc/php5/cli/conf.d/*-xdebug.ini ]; then

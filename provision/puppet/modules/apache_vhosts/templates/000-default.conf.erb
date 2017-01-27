@@ -6,8 +6,8 @@ SetEnv SYMFONY__VAGRANT 1
     ServerName localhost
     ServerAlias vagrant
     ServerAlias vagrant.dev
-    ServerAlias {{ PROJECT_NAME }}
-    ServerAlias {{ PROJECT_NAME }}.dev
+    ServerAlias <%= @project_name %>
+    ServerAlias <%= @project_name %>.dev
     DocumentRoot /var/www/web/
     <Directory /var/www/web/>
         Options +FollowSymLinks +MultiViews +Indexes
@@ -23,8 +23,8 @@ SetEnv SYMFONY__VAGRANT 1
         ServerName localhost
         ServerAlias vagrant
         ServerAlias vagrant.dev
-        ServerAlias {{ PROJECT_NAME }}
-        ServerAlias {{ PROJECT_NAME }}.dev
+        ServerAlias <%= @project_name %>
+        ServerAlias <%= @project_name %>.dev
         DocumentRoot /var/www/web/
         <Directory /var/www/web/>
                 Options +FollowSymLinks +MultiViews +Indexes

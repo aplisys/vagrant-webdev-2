@@ -20,7 +20,8 @@ class mariadb {
       command => "mysqladmin -uroot password vagrant",
       path    => ['/bin', '/usr/bin'],
       require => Service['mysql'];
-    'add-users':
+    'add-root-from-anywhere-user':
+      onlyif => 'test `mysql -u root -pvagrant mysql -Ns -e "select count(*) from user where User=\'root\' AND Host=\'%\';"` -eq 0',
       command => 'mysql -u root -pvagrant -e "CREATE USER \'root\'@\'%\' IDENTIFIED BY \'vagrant\'; GRANT ALL ON *.* TO \'root\'@\'%\' WITH GRANT OPTION; FLUSH PRIVILEGES;"',
       path    => ['/bin', '/usr/bin'],
       require => Exec['set-mysql-password'];

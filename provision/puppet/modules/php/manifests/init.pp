@@ -15,7 +15,7 @@ class php {
       require => [Exec['wget packages.sury.org key'], Exec['php.list']];
   }
 
-  package { [ "php${php_version}",
+  package { ["php${php_version}",
               "php${php_version}-fpm",
               "php${php_version}-cli",
               "php${php_version}-bcmath",
@@ -38,7 +38,7 @@ class php {
               'php-xdebug',
               'php-pear']:
     ensure => present,
-  require => Exec['apt-get update php.list'];
+    require => Exec['apt-get update php.list'];
   }
 
   service { 'php-fpm':
@@ -49,7 +49,8 @@ class php {
 
   file {
     "/etc/php/${php_version}/fpm":
-      ensure => directory;
+      ensure => directory,
+      require => Package["php${php_version}-fpm"];
 
     "/etc/php/${php_version}/fpm/php.ini":
       source  => "puppet:///modules/php/fpm-php${php_version}.ini",
@@ -57,10 +58,11 @@ class php {
         File["/etc/php/${php_version}/fpm"],
         Package["php${php_version}-fpm"]
       ],
-    notify  => Service['php-fpm'];
+      notify  => Service['php-fpm'];
 
     "/etc/php/${php_version}/cli":
-      ensure => directory;
+      ensure => directory,
+      require => Package["php${php_version}-cli"];
 
     "/etc/php/${php_version}/cli/php.ini":
       source  => "puppet:///modules/php/cli-php${php_version}.ini",
@@ -68,12 +70,6 @@ class php {
         File["/etc/php/${php_version}/cli"],
         Package["php${php_version}-cli"]
       ];
-  }
-
-  service { 'php-fpm':
-    ensure => running,
-    require => Package["php${php_version}-fpm"],
-    notify  => Service['nginx'];
   }
 
   exec { 'composer-installer':

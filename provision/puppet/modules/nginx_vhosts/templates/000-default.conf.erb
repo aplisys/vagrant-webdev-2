@@ -6,15 +6,13 @@ server {
     root /var/www/web;
 
     location / {
-        # First attempt to serve request as file, then
-        try_files $uri $uri/ =404;
         # try to serve file directly, fallback to app.php
         try_files $uri /app.php$is_args$args;
     }
 
     # index.php
     location ~ /index\.php$ {
-        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        fastcgi_pass unix:/run/php/php<%= @php_version %>-fpm.sock;
         include fastcgi_params;
         #include snippets/fastcgi-php.conf;
         fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
@@ -27,7 +25,7 @@ server {
     # In production, don't include this and don't deploy app_dev.php or config.php
     location ~ ^/(app_dev|config)\.php(/|$) {
         #fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        fastcgi_pass unix:/run/php/php<%= @php_version %>-fpm.sock;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
         #include snippets/fastcgi-php.conf;
@@ -45,7 +43,7 @@ server {
     # PROD
     location ~ ^/app\.php(/|$) {
         #fastcgi_pass unix:/var/run/php5-fpm.sock;
-        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        fastcgi_pass unix:/run/php/php<%= @php_version %>-fpm.sock;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;
         #include snippets/fastcgi-php.conf;
@@ -70,13 +68,6 @@ server {
    location ~ \.php$ {
      return 404;
    }
-
-    # deny access to .htaccess files, if Apache's document root
-    # concurs with nginx's one
-    #
-    location ~ /\.ht {
-        deny all;
-    }
 
    error_log /var/log/nginx/project_error.log;
    access_log /var/log/nginx/project_access.log;

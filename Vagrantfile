@@ -59,24 +59,25 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   # Use VBoxManage to customize the VM. For example to change memory:
     vb.customize ["modifyvm", :id, "--memory", "2096"]
     vb.customize ["modifyvm", :id, "--cpus", "1"]
+    vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
   end
   #
   # View the documentation for the provider you're using for more
   # information on available options.
 
-  config.vm.provision "setup", type: "shell" do |s|
-    s.path = "provision/setup.sh"
-  end
+  # config.vm.provision "setup", type: "shell" do |s|
+  #   s.path = "provision/setup.sh"
+  # end
 
-  config.vm.provision "init", type: "shell" do |s|
-    s.path = "provision/init.sh"
-    # first argument is required and is project_name
-    s.args = [config.vm.hostname]
-  end
+  # config.vm.provision "init", type: "shell" do |s|
+  #   s.path = "provision/init.sh"
+  #   # first argument is required and is project_name
+  #   s.args = [config.vm.hostname]
+  # end
 
-  config.vm.provision "reboot", type: "shell", run: "always" do |s|
-    s.path = "provision/reboot.sh"
-  end
+  # config.vm.provision "reboot", type: "shell", run: "always" do |s|
+  #   s.path = "provision/reboot.sh"
+  # end
 
   # Enable provisioning with CFEngine. CFEngine Community packages are
   # automatically installed. For example, configure the host as a
@@ -103,6 +104,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #   puppet.manifests_path = "manifests"
   #   puppet.manifest_file  = "default.pp"
   # end
+
+  # install puppet provisioner
+  config.vm.provision "shell", inline: "apt-get install --yes puppet"
+
+  # provision by puppet
+  config.vm.provision :puppet, :run => 'always' do |puppet|
+    puppet.manifests_path = "provision/puppet/manifests"
+    puppet.manifest_file = "site.pp"
+    puppet.module_path = "provision/puppet/modules"
+    puppet.facter = {
+        "project_name" => config.vm.hostname,
+        "php_version" => "7.0"
+    }
+  end
 
   # Enable provisioning with chef solo, specifying a cookbooks path, roles
   # path, and data_bags path (all relative to this Vagrantfile), and adding

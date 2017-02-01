@@ -1,4 +1,4 @@
-# Vagrant - PHP bootstrap project
+# Vagrant - Symfony 2.8 bootstrap project
 
 ## LAMP Stack for Symfony
 

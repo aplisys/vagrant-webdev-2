@@ -12,4 +12,4 @@ File {
   mode => '0644',
 }
 
-include baseconfig, php, nginx, nginx_vhosts, mariadb, vardata
+include baseconfig, php, composer, nginx, nginx_vhosts, mariadb, vardata

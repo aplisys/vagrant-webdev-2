@@ -1,7 +1,7 @@
 class php {
 
   exec {
-    'wget packages.sury.org key':
+    'curl packages.sury.org key':
       command => 'curl -o /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg',
       path => ['/usr/bin', '/bin'];
 
@@ -12,7 +12,13 @@ class php {
     'apt-get update php.list':
       command => 'apt-get update',
       path => ['/usr/bin'],
-      require => [Exec['wget packages.sury.org key'], Exec['php.list']];
+      require => [
+        Package['apt-transport-https'],
+        Package['lsb-release'],
+        Package['ca-certificates'],
+        Exec['curl packages.sury.org key'],
+        Exec['php.list']
+      ];
   }
 
   package { ["php${php_version}",
@@ -41,10 +47,9 @@ class php {
     require => Exec['apt-get update php.list'];
   }
 
-  service { 'php-fpm':
+  service { "php${php_version}-fpm":
     ensure => running,
     require => Package["php${php_version}-fpm"],
-    notify  => Service['nginx'];
   }
 
   file {
@@ -54,11 +59,8 @@ class php {
 
     "/etc/php/${php_version}/fpm/php.ini":
       source  => "puppet:///modules/php/fpm-php${php_version}.ini",
-      require => [
-        File["/etc/php/${php_version}/fpm"],
-        Package["php${php_version}-fpm"]
-      ],
-      notify  => Service['php-fpm'];
+      require => File["/etc/php/${php_version}/fpm"],
+      before => Service["php${php_version}-fpm"];
 
     "/etc/php/${php_version}/cli":
       ensure => directory,
@@ -66,21 +68,6 @@ class php {
 
     "/etc/php/${php_version}/cli/php.ini":
       source  => "puppet:///modules/php/cli-php${php_version}.ini",
-      require => [
-        File["/etc/php/${php_version}/cli"],
-        Package["php${php_version}-cli"]
-      ];
-  }
-
-  exec { 'composer-installer':
-    command => 'curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/bin --filename=composer',
-    path => ['/usr/bin'],
-    require => Package['curl', "php${php_version}-cli"];
-  }
-
-  file { '/usr/bin/composer':
-    ensure => file,
-    mode => 'a+x',
-    require => Exec['composer-installer'];
+      require => File["/etc/php/${php_version}/cli"];
   }
 }

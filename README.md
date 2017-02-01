@@ -5,7 +5,7 @@
 Stack contains:
 - Linux Debian 8.x Jessie
 - Nginx 1.x
-- PHP 7.0 FPM
+- PHP FPM (available versions: 5.6, 7.0, 7.1, for more look at: https://deb.sury.org/ )
 - MariaDB 10.x
 - Symfony 2.8
 

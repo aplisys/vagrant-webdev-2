@@ -21,6 +21,3 @@ tags
 /vim*
 /composer.phar
 /nbproject/
-
-.sass-cache/
-node_modules/

@@ -19,8 +19,9 @@ tags
 /.vim*
 /gvim*
 /vim*
-/composer.phar
 /nbproject/
+
+/*.phar
 
 .sass-cache/
 node_modules/

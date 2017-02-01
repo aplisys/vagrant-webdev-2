@@ -1,13 +1,14 @@
-# Vagrant - PHP Symfony 2.8 bootstrap project
+# Vagrant - PHP bootstrap project
 
-## LAMP Stack with Symfony
+## LAMP Stack for Symfony
 
 Stack contains:
 - Linux Debian 8.x Jessie
+- Puppet for provisioning
 - Apache 2.4
 - PHP 5.6
-- MariaDB 10.x
-- Symfony 2.8
+- MariaDB 10.0
+- Symfony 2.8 ready configuration
 
 ## Recomended changes in Symfony files after instalation:
 

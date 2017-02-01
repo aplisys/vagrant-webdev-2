@@ -46,7 +46,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   config.vm.synced_folder ".", "/vagrant", disabled: true
-  config.vm.synced_folder ".", "/var/www", create: true, group: "vagrant", owner: "vagrant"
+  config.vm.synced_folder ".", "/var/www/vagrant", create: true, group: "vagrant", owner: "vagrant"
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
@@ -115,7 +115,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     puppet.module_path = "provision/puppet/modules"
     puppet.facter = {
         "project_name" => config.vm.hostname,
-        "php_version" => "7.0"
+        "php_version" => "7.1"
     }
   end
 

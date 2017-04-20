@@ -4,6 +4,8 @@ server {
 
     server_name _;
     root /var/www/vagrant/web;
+    
+    sendfile off;
 
     index index.html index.htm index.php;
 

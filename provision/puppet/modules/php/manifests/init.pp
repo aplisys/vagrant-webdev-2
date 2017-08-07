@@ -70,4 +70,11 @@ class php {
       source  => "puppet:///modules/php/cli-php${php_version}.ini",
       require => File["/etc/php/${php_version}/cli"];
   }
+
+  exec {
+    'update-alternatives php':
+      command => "update-alternatives --set php `which php${php_version}`",
+      path => ['/usr/sbin', '/sbin', '/usr/bin', '/bin'],
+      require => Package["php${php_version}-cli"];
+  }
 }
